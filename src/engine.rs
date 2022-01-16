@@ -23,8 +23,8 @@ impl TransactionEngine {
             .for_each(|(_cid, acc)| println!("{:?}", acc));
     }
 
-    pub fn process_transactions(&mut self, txs: &[Transaction]) {
-        txs.iter().for_each(|tx| {
+    pub fn process_transactions(&mut self, txs: impl Iterator<Item = Transaction>) {
+        txs.for_each(|tx| {
             let acc = self
                 .accounts
                 .entry(tx.client)

@@ -12,7 +12,9 @@ impl Parser {
             .from_path(input.expect("Expected argument but found none"))
     }
 
-    pub fn extract_transactions(reader: &mut Reader<File>) -> Vec<Transaction> {
+    pub fn extract_transactions(
+        reader: &mut Reader<File>,
+    ) -> impl Iterator<Item = Transaction> + '_ {
         reader
             .deserialize()
             .filter_map(|tx: Result<Transaction, csv::Error>| match tx.ok() {
@@ -22,6 +24,5 @@ impl Parser {
                 }
                 Some(t) => Some(t),
             })
-            .collect()
     }
 }
