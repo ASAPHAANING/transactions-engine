@@ -105,12 +105,8 @@ impl Action for Transaction {
 
 impl Transaction {
     fn add_amount(target: Decimal, amount: Decimal) -> Result<Decimal, ActionError> {
-        Ok(
-            match target.checked_add(amount).ok_or(ArithmeticOverflow)? {
-                res if res.is_sign_negative() => target,
-                res => res,
-            },
-        )
+        // Since amount is guaranteed to be non-negative we do not need to check here.
+        target.checked_add(amount).ok_or(ArithmeticOverflow)
     }
 
     fn subtract_amount(target: Decimal, amount: Decimal) -> Result<Decimal, ActionError> {
